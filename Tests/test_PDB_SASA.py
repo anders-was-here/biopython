@@ -13,7 +13,7 @@ import unittest
 import warnings
 
 from Bio.PDB import PDBParser
-from Bio.PDB.SASA import ShrakeRupley
+from Bio.PDB.SASA import ShrakeRupley, ATOMIC_RADII
 
 DATADIR = pathlib.Path(__file__).parent / "PDB"
 
@@ -152,6 +152,12 @@ class TestShrakeRupley(unittest.TestCase):
         self.assertEqual(len(r.child_list), 0)
         with self.assertRaisesRegex(ValueError, "Entity has no child atoms"):
             sasa.compute(r)
+
+    def test_atomic_radii(self):
+        """Test default value of ATOMIC_RADII."""
+        radii_dict = ATOMIC_RADII.copy()
+        default = radii_dict["U"]
+        self.assertEqual(default, 2.0)
 
 
 if __name__ == "__main__":
